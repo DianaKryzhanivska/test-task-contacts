@@ -31,7 +31,7 @@ const Modal = ({ isOpen, onClose }) => {
   return (
     <>
       <ModalOverlay onClick={onClose}>
-        <ModalContent>
+        <ModalContent onClick={e => e.stopPropagation()}>
           <CloseBtn onClick={onClose}>
             <IoIosClose />
           </CloseBtn>

@@ -12,6 +12,7 @@ export const HeaderContainer = styled(Container)`
 
 export const AddBtn = styled.button`
   background: transparent;
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
