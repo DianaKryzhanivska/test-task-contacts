@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { TiDelete } from 'react-icons/ti';
 import {
@@ -12,15 +12,16 @@ import {
 } from './Contacts.styled';
 import user from '../../images/user.png';
 import { IoSearchOutline } from 'react-icons/io5';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts } from '../../redux/contacts/selectors';
+import { fetchAllContacts } from '../../redux/contacts/operations';
 
 const Contacts = () => {
-  const contactList = [
-    { name: 'Diana', phone: '0999999999', email: 'test@gmail.com' },
-    { name: 'Test', phone: '0999999999', email: 'test@gmail.com' },
-    { name: 'User', phone: '0999999999', email: 'test@gmail.com' },
-    { name: 'Ivan', phone: '0999999999', email: 'test@gmail.com' },
-    { name: 'Anna', phone: '0999999999', email: 'test@gmail.com' },
-  ];
+  const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
+  useEffect(() => {
+    dispatch(fetchAllContacts());
+  }, [dispatch]);
   return (
     <>
       <ContactsContainer>
@@ -31,7 +32,7 @@ const Contacts = () => {
           <input />
         </Form>
         <ContactList>
-          {contactList.map(contact => (
+          {contacts?.map(contact => (
             <ContactItem key={contact.name}>
               <ContactData>
                 <img src={user} alt="contact" width="40" height="40" />
