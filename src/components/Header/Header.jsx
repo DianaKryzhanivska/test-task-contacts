@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { AddBtn, HeaderContainer } from './Header.styled';
+import { AddBtn, HeaderContainer, NavLinkStyled } from './Header.styled';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import Modal from 'components/Modal/Modal';
 
@@ -15,8 +14,8 @@ const Header = () => {
   return (
     <>
       <HeaderContainer>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/contacts">Contacts</NavLink>
+        <NavLinkStyled to="/">Home</NavLinkStyled>
+        <NavLinkStyled to="/contacts">Contacts</NavLinkStyled>
         <AddBtn onClick={openModal}>
           <IoIosAddCircleOutline style={{ fontSize: '24px' }} />
         </AddBtn>

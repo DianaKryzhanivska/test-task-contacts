@@ -1,5 +1,7 @@
 export const theme = {
   colors: {
-    lightBlue: '#8ab6f9',
+    lightBlue: '#cadcfc',
+    blue: '#8ab6f9',
+    darkBlue: '#00246b',
   },
 };
