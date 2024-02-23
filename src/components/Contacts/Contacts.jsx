@@ -14,7 +14,10 @@ import user from '../../images/user.png';
 import { IoSearchOutline } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectContacts } from '../../redux/contacts/selectors';
-import { fetchAllContacts } from '../../redux/contacts/operations';
+import {
+  deleteContact,
+  fetchAllContacts,
+} from '../../redux/contacts/operations';
 
 const Contacts = () => {
   const dispatch = useDispatch();
@@ -22,6 +25,16 @@ const Contacts = () => {
   useEffect(() => {
     dispatch(fetchAllContacts());
   }, [dispatch]);
+
+  const handleDelete = id => {
+    const isConfirmed = window.confirm(
+      'Are you sure you want to delete this contact?'
+    );
+    if (isConfirmed) {
+      dispatch(deleteContact(id));
+    }
+  };
+
   return (
     <>
       <ContactsContainer>
@@ -33,7 +46,7 @@ const Contacts = () => {
         </Form>
         <ContactList>
           {contacts?.map(contact => (
-            <ContactItem key={contact.name}>
+            <ContactItem key={contact._id}>
               <ContactData>
                 <img src={user} alt="contact" width="40" height="40" />
                 <div>
@@ -44,7 +57,10 @@ const Contacts = () => {
               </ContactData>
               <IconsBox>
                 <CiEdit style={{ fontSize: '24px' }} />
-                <TiDelete style={{ fontSize: '26px' }} />
+                <TiDelete
+                  style={{ fontSize: '26px' }}
+                  onClick={() => handleDelete(contact._id)}
+                />
               </IconsBox>
             </ContactItem>
           ))}
