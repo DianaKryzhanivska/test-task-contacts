@@ -1,25 +1,30 @@
 import React from 'react';
+import { Form, SubmitBtn, Title } from 'components/AddForm/AddForm.styled';
 import { Formik } from 'formik';
-import { Form, SubmitBtn, Title } from './AddForm.styled';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contacts/operations';
+import { editContact } from '../../redux/contacts/operations';
 
-const AddForm = ({ onClose }) => {
+const EditForm = ({ contact, onClose }) => {
   const dispatch = useDispatch();
   const handleSubmit = values => {
-    const formData = {
+    const updatedFormData = {
+      _id: contact._id,
       name: values.name,
       phone: values.phone,
       email: values.email,
     };
-    dispatch(addContact(formData));
+    dispatch(editContact(updatedFormData));
     onClose();
   };
   return (
     <>
-      <Title>Add new contact</Title>
+      <Title>Edit contact</Title>
       <Formik
-        initialValues={{ name: '', phone: '', email: '' }}
+        initialValues={{
+          name: contact.name,
+          phone: contact.phone,
+          email: contact.email,
+        }}
         validate={values => {
           const errors = {};
           if (!values.name) {
@@ -92,7 +97,7 @@ const AddForm = ({ onClose }) => {
               {errors.email && touched.email && <span>{errors.email}</span>}
             </label>
             <SubmitBtn type="submit" disabled={isSubmitting}>
-              Add
+              Edit
             </SubmitBtn>
           </Form>
         )}
@@ -101,4 +106,4 @@ const AddForm = ({ onClose }) => {
   );
 };
 
-export default AddForm;
+export default EditForm;

@@ -23,6 +23,12 @@ export const ModalContent = styled.div`
   background: #fff;
   z-index: 1001;
   position: relative;
+
+  @media only screen and (min-width: 1440px) {
+    width: 325px;
+    /* min-height: 300px; */
+    padding: 40px 30px;
+  }
 `;
 
 export const CloseBtn = styled.button`

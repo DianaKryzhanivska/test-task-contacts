@@ -33,4 +33,5 @@ export const SubmitBtn = styled.button`
   margin-left: auto;
   border-radius: 5px;
   background: ${({ theme }) => theme.colors.lightBlue};
+  border: 1px solid ${({ theme }) => theme.colors.darkBlue};
 `;

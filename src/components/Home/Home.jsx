@@ -1,12 +1,10 @@
 import React from 'react';
-import { Container } from 'styles/GlobalStyles';
+import { HomeContainer } from './Home.styled';
 
 const Home = () => {
   return (
     <>
-      <Container>
-        <div>Home</div>
-      </Container>
+      <HomeContainer></HomeContainer>
     </>
   );
 };

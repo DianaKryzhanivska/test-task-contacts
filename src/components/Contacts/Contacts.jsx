@@ -6,6 +6,7 @@ import {
   ContactItem,
   ContactList,
   ContactsContainer,
+  ContactsWrapper,
   Form,
   IconsBox,
   ResetFilterBtn,
@@ -17,12 +18,14 @@ import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectContacts } from '../../redux/contacts/selectors';
 import {
-  deleteContact,
   fetchAllContacts,
   getSearchContacts,
 } from '../../redux/contacts/operations';
+import Modal from 'components/Modal/Modal';
+import EditForm from 'components/EditForm/EditForm';
+import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
 
-const Contacts = () => {
+const Contacts = ({ contact, onClose }) => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
   useEffect(() => {
@@ -30,6 +33,9 @@ const Contacts = () => {
   }, [dispatch]);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModaLOpen] = useState(false);
+  const [modalContact, setModalContact] = useState(null);
 
   const handleChange = e => {
     setSearchTerm(e.target.value);
@@ -44,13 +50,22 @@ const Contacts = () => {
     setSearchTerm('');
   };
 
-  const handleDelete = id => {
-    const isConfirmed = window.confirm(
-      'Are you sure you want to delete this contact?'
-    );
-    if (isConfirmed) {
-      dispatch(deleteContact(id));
-    }
+  const openModal = contact => {
+    setIsEditModalOpen(true);
+    setModalContact(contact);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+  };
+
+  const openConfirmModal = contact => {
+    setIsConfirmModaLOpen(true);
+    setModalContact(contact);
+  };
+
+  const closeConfirmModal = () => {
+    setIsConfirmModaLOpen(false);
   };
 
   return (
@@ -60,33 +75,57 @@ const Contacts = () => {
           <SearchBtn type="submit">
             <IoSearchOutline />
           </SearchBtn>
-          <input type="text" value={searchTerm} onChange={handleChange} />
+          <input
+            type="text"
+            placeholder="Find by name or email"
+            value={searchTerm}
+            onChange={handleChange}
+          />
           <ResetFilterBtn type="submit" onClick={resetFilter}>
             <IoIosCloseCircleOutline />
           </ResetFilterBtn>
         </Form>
-        <ContactList>
-          {contacts?.map(contact => (
-            <ContactItem key={contact._id}>
-              <ContactData>
-                <img src={user} alt="contact" width="40" height="40" />
-                <div>
-                  <p>{contact.name}</p>
-                  <p>{contact.phone}</p>
-                  <p>{contact.email}</p>
-                </div>
-              </ContactData>
-              <IconsBox>
-                <CiEdit style={{ fontSize: '24px' }} />
-                <TiDelete
-                  style={{ fontSize: '26px' }}
-                  onClick={() => handleDelete(contact._id)}
-                />
-              </IconsBox>
-            </ContactItem>
-          ))}
-        </ContactList>
+        <ContactsWrapper>
+          <ContactList>
+            {contacts?.map(contact => (
+              <ContactItem key={contact._id}>
+                <ContactData>
+                  <img src={user} alt="contact" />
+                  <div>
+                    <h3>{contact.name}</h3>
+                    <p>{contact.phone}</p>
+                    <p>{contact.email}</p>
+                  </div>
+                </ContactData>
+                <IconsBox>
+                  <CiEdit
+                    style={{ fontSize: '24px' }}
+                    onClick={() => openModal(contact)}
+                  />
+                  <TiDelete
+                    style={{ fontSize: '26px' }}
+                    onClick={() => openConfirmModal(contact)}
+                  />
+                </IconsBox>
+              </ContactItem>
+            ))}
+          </ContactList>
+        </ContactsWrapper>
       </ContactsContainer>
+      <Modal
+        isOpen={isEditModalOpen}
+        onClose={closeEditModal}
+        contact={modalContact}
+      >
+        <EditForm contact={modalContact} onClose={closeEditModal} />
+      </Modal>
+      <Modal
+        isOpen={isConfirmModalOpen}
+        onClose={closeConfirmModal}
+        contact={modalContact}
+      >
+        <ConfirmModal contact={modalContact} onClose={closeConfirmModal} />
+      </Modal>
     </>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AddBtn, HeaderContainer, NavLinkStyled } from './Header.styled';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import Modal from 'components/Modal/Modal';
+import AddForm from 'components/AddForm/AddForm';
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -17,10 +18,12 @@ const Header = () => {
         <NavLinkStyled to="/">Home</NavLinkStyled>
         <NavLinkStyled to="/contacts">Contacts</NavLinkStyled>
         <AddBtn onClick={openModal}>
-          <IoIosAddCircleOutline style={{ fontSize: '24px' }} />
+          <IoIosAddCircleOutline />
         </AddBtn>
       </HeaderContainer>
-      <Modal isOpen={isModalOpen} onClose={() => closeModal()} />
+      <Modal isOpen={isModalOpen} onClose={() => closeModal()}>
+        <AddForm onClose={closeModal} />
+      </Modal>
     </>
   );
 };

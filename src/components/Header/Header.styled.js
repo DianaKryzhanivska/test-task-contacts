@@ -30,5 +30,10 @@ export const AddBtn = styled.button`
 
   & svg {
     fill: #fff;
+    font-size: 24px;
+
+    @media only screen and (min-width: 1440px) {
+      font-size: 34px;
+    }
   }
 `;

@@ -18,6 +18,14 @@ body {
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
+
+  @media only screen and (min-width: 768px) {
+    font-size: 18px;
+  }
+
+  @media only screen and (min-width: 1440px) {
+    font-size: 20px;
+  }
 }
 
 p:last-child {
@@ -51,4 +59,14 @@ img {
 export const Container = styled.div`
   padding-left: 30px;
   padding-right: 30px;
+
+  @media only screen and (min-width: 768px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media only screen and (min-width: 1440px) {
+    padding-left: 120px;
+    padding-right: 120px;
+  }
 `;

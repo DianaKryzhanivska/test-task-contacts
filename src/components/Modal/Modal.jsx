@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import { CloseBtn, ModalContent, ModalOverlay } from './Modal.styled';
 import { IoIosClose } from 'react-icons/io';
-import AddForm from 'components/AddForm/AddForm';
 
-const Modal = ({ isOpen, onClose }) => {
+const Modal = ({ isOpen, onClose, children, contact }) => {
   const handleKeyDown = useCallback(
     e => {
       if (e.key === 'Escape') {
@@ -35,7 +34,7 @@ const Modal = ({ isOpen, onClose }) => {
           <CloseBtn onClick={onClose}>
             <IoIosClose />
           </CloseBtn>
-          <AddForm onClose={onClose} />
+          {children}
         </ModalContent>
       </ModalOverlay>
     </>
