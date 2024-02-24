@@ -26,7 +26,6 @@ export const ModalContent = styled.div`
 
   @media only screen and (min-width: 1440px) {
     width: 325px;
-    /* min-height: 300px; */
     padding: 40px 30px;
   }
 `;
