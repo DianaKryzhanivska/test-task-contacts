@@ -70,7 +70,7 @@ const AddForm = ({ onClose }) => {
             <label>
               Phone number:
               <input
-                type="number"
+                type="tel"
                 name="phone"
                 onChange={handleChange}
                 onBlur={handleBlur}
