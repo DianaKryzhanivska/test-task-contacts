@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { TiDelete } from 'react-icons/ti';
 import {
@@ -8,15 +8,18 @@ import {
   ContactsContainer,
   Form,
   IconsBox,
+  ResetFilterBtn,
   SearchBtn,
 } from './Contacts.styled';
 import user from '../../images/user.png';
 import { IoSearchOutline } from 'react-icons/io5';
+import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectContacts } from '../../redux/contacts/selectors';
 import {
   deleteContact,
   fetchAllContacts,
+  getSearchContacts,
 } from '../../redux/contacts/operations';
 
 const Contacts = () => {
@@ -25,6 +28,21 @@ const Contacts = () => {
   useEffect(() => {
     dispatch(fetchAllContacts());
   }, [dispatch]);
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleChange = e => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    dispatch(getSearchContacts(searchTerm));
+  };
+
+  const resetFilter = () => {
+    setSearchTerm('');
+  };
 
   const handleDelete = id => {
     const isConfirmed = window.confirm(
@@ -38,11 +56,14 @@ const Contacts = () => {
   return (
     <>
       <ContactsContainer>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <SearchBtn type="submit">
             <IoSearchOutline />
           </SearchBtn>
-          <input />
+          <input type="text" value={searchTerm} onChange={handleChange} />
+          <ResetFilterBtn type="submit" onClick={resetFilter}>
+            <IoIosCloseCircleOutline />
+          </ResetFilterBtn>
         </Form>
         <ContactList>
           {contacts?.map(contact => (

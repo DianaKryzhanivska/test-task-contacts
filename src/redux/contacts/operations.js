@@ -24,3 +24,18 @@ export const deleteContact = createAsyncThunk(
     }
   }
 );
+
+export const getSearchContacts = createAsyncThunk(
+  'contacts/getSearchContacts',
+  async (searchTerm, { rejectWithValue }) => {
+    try {
+      const { data } = await instance.get(
+        `/api/contacts/search?term=${searchTerm}`
+      );
+      console.log(data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);

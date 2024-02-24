@@ -13,9 +13,9 @@ export const Form = styled.form`
   & input {
     width: 300px;
     height: 20px;
-    border-radius: 0 10px 10px 0;
     border: 1px solid ${({ theme }) => theme.colors.darkBlue};
     border-left: none;
+    border-right: none;
   }
 `;
 
@@ -23,12 +23,27 @@ export const SearchBtn = styled.button`
   background: transparent;
   border: 1px solid ${({ theme }) => theme.colors.darkBlue};
   border-radius: 10px 0 0 10px;
+  border-right: none;
   display: flex;
   align-items: center;
   justify-content: center;
 
   & svg {
     font-size: 18px;
+  }
+`;
+
+export const ResetFilterBtn = styled.button`
+  background: transparent;
+  border: 1px solid ${({ theme }) => theme.colors.darkBlue};
+  border-radius: 0 10px 10px 0;
+  border-left: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & svg {
+    font-size: 20px;
   }
 `;
 
