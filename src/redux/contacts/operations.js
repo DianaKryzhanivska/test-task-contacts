@@ -32,7 +32,23 @@ export const getSearchContacts = createAsyncThunk(
       const { data } = await instance.get(
         `/api/contacts/search?term=${searchTerm}`
       );
-      console.log(data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const addContact = createAsyncThunk(
+  'contacts/addContact',
+  async (body, { rejectWithValue }) => {
+    const credentials = {
+      name: body.name,
+      phone: body.phone,
+      email: body.email,
+    };
+    try {
+      const { data } = await instance.post('api/contacts/add', credentials);
       return data;
     } catch (error) {
       return rejectWithValue(error.message);

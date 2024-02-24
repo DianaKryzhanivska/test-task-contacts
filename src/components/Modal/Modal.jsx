@@ -35,7 +35,7 @@ const Modal = ({ isOpen, onClose }) => {
           <CloseBtn onClick={onClose}>
             <IoIosClose />
           </CloseBtn>
-          <AddForm />
+          <AddForm onClose={onClose} />
         </ModalContent>
       </ModalOverlay>
     </>

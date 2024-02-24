@@ -2,8 +2,20 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Form, SubmitBtn, Title } from './AddForm.styled';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../redux/contacts/operations';
 
-const AddForm = () => {
+const AddForm = ({ onClose }) => {
+  const dispatch = useDispatch();
+  const handleSubmit = values => {
+    const formData = {
+      name: values.name,
+      phone: values.phone,
+      email: values.email,
+    };
+    dispatch(addContact(formData));
+    onClose();
+  };
   return (
     <>
       <Title>Add new contact</Title>
@@ -27,10 +39,10 @@ const AddForm = () => {
           return errors;
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          console.log('submit', values);
           setTimeout(() => {
             setSubmitting(false);
           }, 400);
+          handleSubmit(values);
           resetForm();
           toast.success(`Contact ${values.name} succesfully added!`);
         }}
