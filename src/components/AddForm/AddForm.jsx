@@ -3,15 +3,14 @@ import { Formik } from 'formik';
 import { Form, SubmitBtn, Title } from './AddForm.styled';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contacts/operations';
-import { toast } from 'react-toastify';
 
 const AddForm = ({ onClose }) => {
   const dispatch = useDispatch();
   const handleSubmit = values => {
     const formData = {
-      name: values.name,
-      phone: values.phone,
-      email: values.email,
+      name: values.name.trim(),
+      phone: values.phone.trim(),
+      email: values.email.trim(),
     };
     dispatch(addContact(formData));
     onClose();
@@ -28,6 +27,8 @@ const AddForm = ({ onClose }) => {
           }
           if (!values.phone) {
             errors.phone = 'Required';
+          } else if (!/^\+?\d{1,3}\d{3,}$/.test(values.phone)) {
+            errors.phone = 'Invalid phone number';
           }
           if (!values.email) {
             errors.email = 'Required';
@@ -38,17 +39,10 @@ const AddForm = ({ onClose }) => {
           }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting, resetForm, isValid }) => {
-          if (!isValid) {
-            setSubmitting(false);
-            toast.error('Please enter a valid data');
-            return;
-          }
-          setTimeout(() => {
-            setSubmitting(false);
-          }, 400);
+        onSubmit={(values, { setSubmitting, resetForm }) => {
           handleSubmit(values);
           resetForm();
+          setSubmitting(false);
         }}
       >
         {({
@@ -59,7 +53,6 @@ const AddForm = ({ onClose }) => {
           handleBlur,
           handleSubmit,
           isSubmitting,
-          isValid,
         }) => (
           <Form onSubmit={handleSubmit}>
             <label>
@@ -82,8 +75,6 @@ const AddForm = ({ onClose }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className={errors.phone && touched.phone ? 'error' : ''}
-                pattern="[0-9+ -]*"
-                title="Please enter a valid phone number"
                 value={values.phone}
               />
               {errors.phone && touched.phone && <span>{errors.phone}</span>}
@@ -100,7 +91,7 @@ const AddForm = ({ onClose }) => {
               />
               {errors.email && touched.email && <span>{errors.email}</span>}
             </label>
-            <SubmitBtn type="submit" disabled={!isValid || isSubmitting}>
+            <SubmitBtn type="submit" disabled={isSubmitting}>
               Add
             </SubmitBtn>
           </Form>
