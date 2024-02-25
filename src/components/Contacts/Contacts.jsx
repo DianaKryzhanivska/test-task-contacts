@@ -83,8 +83,8 @@ const Contacts = ({ contact, onClose }) => {
     if (isFiltering) {
       const results = contacts.filter(
         contact =>
-          contact.name.includes(searchTerm) ||
-          contact.email.includes(searchTerm)
+          contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          contact.email.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredContacts(results);
     }

@@ -3,6 +3,7 @@ import { Form, SubmitBtn, Title } from 'components/AddForm/AddForm.styled';
 import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { editContact } from '../../redux/contacts/operations';
+import { toast } from 'react-toastify';
 
 const EditForm = ({ contact, onClose }) => {
   const dispatch = useDispatch();
@@ -42,7 +43,12 @@ const EditForm = ({ contact, onClose }) => {
           }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
+        onSubmit={(values, { setSubmitting, resetForm, isValid }) => {
+          if (!isValid) {
+            setSubmitting(false);
+            toast.error('Please enter a valid data');
+            return;
+          }
           setTimeout(() => {
             setSubmitting(false);
           }, 400);
@@ -58,6 +64,7 @@ const EditForm = ({ contact, onClose }) => {
           handleBlur,
           handleSubmit,
           isSubmitting,
+          isValid,
         }) => (
           <Form onSubmit={handleSubmit}>
             <label>
@@ -96,7 +103,7 @@ const EditForm = ({ contact, onClose }) => {
               />
               {errors.email && touched.email && <span>{errors.email}</span>}
             </label>
-            <SubmitBtn type="submit" disabled={isSubmitting}>
+            <SubmitBtn type="submit" disabled={!isValid || isSubmitting}>
               Edit
             </SubmitBtn>
           </Form>

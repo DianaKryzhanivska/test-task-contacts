@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import { Form, SubmitBtn, Title } from './AddForm.styled';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contacts/operations';
+import { toast } from 'react-toastify';
 
 const AddForm = ({ onClose }) => {
   const dispatch = useDispatch();
@@ -37,7 +38,12 @@ const AddForm = ({ onClose }) => {
           }
           return errors;
         }}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
+        onSubmit={(values, { setSubmitting, resetForm, isValid }) => {
+          if (!isValid) {
+            setSubmitting(false);
+            toast.error('Please enter a valid data');
+            return;
+          }
           setTimeout(() => {
             setSubmitting(false);
           }, 400);
@@ -53,6 +59,7 @@ const AddForm = ({ onClose }) => {
           handleBlur,
           handleSubmit,
           isSubmitting,
+          isValid,
         }) => (
           <Form onSubmit={handleSubmit}>
             <label>
@@ -93,7 +100,7 @@ const AddForm = ({ onClose }) => {
               />
               {errors.email && touched.email && <span>{errors.email}</span>}
             </label>
-            <SubmitBtn type="submit" disabled={isSubmitting}>
+            <SubmitBtn type="submit" disabled={!isValid || isSubmitting}>
               Add
             </SubmitBtn>
           </Form>
