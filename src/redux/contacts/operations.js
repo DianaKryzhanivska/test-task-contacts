@@ -54,6 +54,7 @@ export const addContact = createAsyncThunk(
       toast.success(`Contact ${body.name} succesfully added!`);
       return data;
     } catch (error) {
+      toast.error(`Something went wrong. Please try again later.`);
       return rejectWithValue(error.message);
     }
   }

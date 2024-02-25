@@ -75,6 +75,8 @@ const AddForm = ({ onClose }) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 className={errors.phone && touched.phone ? 'error' : ''}
+                pattern="[0-9+ -]*"
+                title="Please enter a valid phone number"
                 value={values.phone}
               />
               {errors.phone && touched.phone && <span>{errors.phone}</span>}
