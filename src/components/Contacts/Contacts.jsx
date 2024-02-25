@@ -16,7 +16,10 @@ import user from '../../images/user.png';
 import { IoSearchOutline } from 'react-icons/io5';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts } from '../../redux/contacts/selectors';
+import {
+  selectContacts,
+  selectIsLoading,
+} from '../../redux/contacts/selectors';
 import {
   fetchAllContacts,
   getSearchContacts,
@@ -24,9 +27,11 @@ import {
 import Modal from 'components/Modal/Modal';
 import EditForm from 'components/EditForm/EditForm';
 import ConfirmModal from 'components/ConfirmModal/ConfirmModal';
+import Loader from 'components/Loader/Loader';
 
 const Contacts = ({ contact, onClose }) => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
   const contacts = useSelector(selectContacts);
   useEffect(() => {
     dispatch(fetchAllContacts());
@@ -70,48 +75,52 @@ const Contacts = ({ contact, onClose }) => {
 
   return (
     <>
-      <ContactsContainer>
-        <Form onSubmit={handleSubmit}>
-          <SearchBtn type="submit">
-            <IoSearchOutline />
-          </SearchBtn>
-          <input
-            type="text"
-            placeholder="Find by name or email"
-            value={searchTerm}
-            onChange={handleChange}
-          />
-          <ResetFilterBtn type="submit" onClick={resetFilter}>
-            <IoIosCloseCircleOutline />
-          </ResetFilterBtn>
-        </Form>
-        <ContactsWrapper>
-          <ContactList>
-            {contacts?.map(contact => (
-              <ContactItem key={contact._id}>
-                <ContactData>
-                  <img src={user} alt="contact" />
-                  <div>
-                    <h3>{contact.name}</h3>
-                    <p>{contact.phone}</p>
-                    <p>{contact.email}</p>
-                  </div>
-                </ContactData>
-                <IconsBox>
-                  <CiEdit
-                    style={{ fontSize: '24px' }}
-                    onClick={() => openModal(contact)}
-                  />
-                  <TiDelete
-                    style={{ fontSize: '26px' }}
-                    onClick={() => openConfirmModal(contact)}
-                  />
-                </IconsBox>
-              </ContactItem>
-            ))}
-          </ContactList>
-        </ContactsWrapper>
-      </ContactsContainer>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <ContactsContainer>
+          <Form onSubmit={handleSubmit}>
+            <SearchBtn type="submit">
+              <IoSearchOutline />
+            </SearchBtn>
+            <input
+              type="text"
+              placeholder="Find by name or email"
+              value={searchTerm}
+              onChange={handleChange}
+            />
+            <ResetFilterBtn type="submit" onClick={resetFilter}>
+              <IoIosCloseCircleOutline />
+            </ResetFilterBtn>
+          </Form>
+          <ContactsWrapper>
+            <ContactList>
+              {contacts?.map(contact => (
+                <ContactItem key={contact._id}>
+                  <ContactData>
+                    <img src={user} alt="contact" />
+                    <div>
+                      <h3>{contact.name}</h3>
+                      <p>{contact.phone}</p>
+                      <p>{contact.email}</p>
+                    </div>
+                  </ContactData>
+                  <IconsBox>
+                    <CiEdit
+                      style={{ fontSize: '24px' }}
+                      onClick={() => openModal(contact)}
+                    />
+                    <TiDelete
+                      style={{ fontSize: '26px' }}
+                      onClick={() => openConfirmModal(contact)}
+                    />
+                  </IconsBox>
+                </ContactItem>
+              ))}
+            </ContactList>
+          </ContactsWrapper>
+        </ContactsContainer>
+      )}
       <Modal
         isOpen={isEditModalOpen}
         onClose={closeEditModal}

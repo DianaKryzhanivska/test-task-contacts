@@ -9,7 +9,7 @@ import {
 
 const initialState = {
   contacts: [],
-  isLoading: 'false',
+  isLoading: false,
   error: null,
 };
 

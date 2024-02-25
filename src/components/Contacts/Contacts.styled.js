@@ -94,7 +94,7 @@ export const ContactList = styled.ul`
   @media only screen and (min-width: 768px) {
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 20px;
   }
 `;
