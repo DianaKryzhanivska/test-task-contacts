@@ -9,6 +9,7 @@ import {
   ContactsWrapper,
   Form,
   IconsBox,
+  Message,
   ResetFilterBtn,
   SearchBtn,
 } from './Contacts.styled';
@@ -38,6 +39,8 @@ const Contacts = ({ contact, onClose }) => {
   }, [dispatch]);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [isFiltering, setIsFiltering] = useState(false);
+  const [filteredContacts, setFilteredContacts] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModaLOpen] = useState(false);
   const [modalContact, setModalContact] = useState(null);
@@ -49,10 +52,13 @@ const Contacts = ({ contact, onClose }) => {
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(getSearchContacts(searchTerm));
+    setIsFiltering(true);
   };
 
   const resetFilter = () => {
     setSearchTerm('');
+    setIsFiltering(false);
+    setFilteredContacts([]);
   };
 
   const openModal = contact => {
@@ -72,6 +78,17 @@ const Contacts = ({ contact, onClose }) => {
   const closeConfirmModal = () => {
     setIsConfirmModaLOpen(false);
   };
+
+  useEffect(() => {
+    if (isFiltering) {
+      const results = contacts.filter(
+        contact =>
+          contact.name.includes(searchTerm) ||
+          contact.email.includes(searchTerm)
+      );
+      setFilteredContacts(results);
+    }
+  }, [isFiltering, searchTerm, contacts]);
 
   return (
     <>
@@ -93,31 +110,49 @@ const Contacts = ({ contact, onClose }) => {
               <IoIosCloseCircleOutline />
             </ResetFilterBtn>
           </Form>
+
           <ContactsWrapper>
-            <ContactList>
-              {contacts?.map(contact => (
-                <ContactItem key={contact._id}>
-                  <ContactData>
-                    <img src={user} alt="contact" />
-                    <div>
-                      <h3>{contact.name}</h3>
-                      <p>{contact.phone}</p>
-                      <p>{contact.email}</p>
-                    </div>
-                  </ContactData>
-                  <IconsBox>
-                    <CiEdit
-                      style={{ fontSize: '24px' }}
-                      onClick={() => openModal(contact)}
-                    />
-                    <TiDelete
-                      style={{ fontSize: '26px' }}
-                      onClick={() => openConfirmModal(contact)}
-                    />
-                  </IconsBox>
-                </ContactItem>
-              ))}
-            </ContactList>
+            {isFiltering && filteredContacts.length === 0 ? (
+              <Message>No results for this filter</Message>
+            ) : isFiltering ? (
+              <ContactList>
+                {filteredContacts?.map(contact => (
+                  <ContactItem key={contact._id}>
+                    <ContactData>
+                      <img src={user} alt="contact" />
+                      <div>
+                        <h3>{contact.name}</h3>
+                        <p>{contact.phone}</p>
+                        <p>{contact.email}</p>
+                      </div>
+                    </ContactData>
+                    <IconsBox>
+                      <CiEdit onClick={() => openModal(contact)} />
+                      <TiDelete onClick={() => openConfirmModal(contact)} />
+                    </IconsBox>
+                  </ContactItem>
+                ))}
+              </ContactList>
+            ) : (
+              <ContactList>
+                {contacts?.map(contact => (
+                  <ContactItem key={contact._id}>
+                    <ContactData>
+                      <img src={user} alt="contact" />
+                      <div>
+                        <h3>{contact.name}</h3>
+                        <p>{contact.phone}</p>
+                        <p>{contact.email}</p>
+                      </div>
+                    </ContactData>
+                    <IconsBox>
+                      <CiEdit onClick={() => openModal(contact)} />
+                      <TiDelete onClick={() => openConfirmModal(contact)} />
+                    </IconsBox>
+                  </ContactItem>
+                ))}
+              </ContactList>
+            )}
           </ContactsWrapper>
         </ContactsContainer>
       )}

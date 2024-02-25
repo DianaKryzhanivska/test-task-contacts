@@ -76,6 +76,11 @@ export const Item = styled.li`
   }
 `;
 
+export const LinkWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 export const NavLinkStyled = styled(NavLink)`
   padding: 10px 20px;
   background: ${({ theme }) => theme.colors.blue};

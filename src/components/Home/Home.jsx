@@ -7,6 +7,7 @@ import {
   Title,
   NavLinkStyled,
   ListWrapper,
+  LinkWrapper,
 } from './Home.styled';
 import { IoPersonAddOutline } from 'react-icons/io5';
 import { FaDeleteLeft } from 'react-icons/fa6';
@@ -40,7 +41,9 @@ const Home = () => {
               <p>search for a contact by name and email </p>
             </Item>
           </ActionList>
-          <NavLinkStyled to="/contacts">Start now</NavLinkStyled>
+          <LinkWrapper>
+            <NavLinkStyled to="/contacts">Start now</NavLinkStyled>
+          </LinkWrapper>
         </ListWrapper>
       </HomeContainer>
     </>

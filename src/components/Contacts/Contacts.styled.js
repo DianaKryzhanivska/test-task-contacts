@@ -86,6 +86,11 @@ export const ContactsWrapper = styled.div`
   }
 `;
 
+export const Message = styled.p`
+  text-align: center;
+  margin-top: 30px;
+`;
+
 export const ContactList = styled.ul`
   display: flex;
   gap: 10px;
@@ -106,6 +111,11 @@ export const ContactItem = styled.li`
   padding: 5px 10px;
   background: ${({ theme }) => theme.colors.lightBlue};
   border-radius: 10px;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
 
   & img {
     width: 40px;
@@ -142,4 +152,12 @@ export const IconsBox = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+
+  & svg {
+    font-size: 26px;
+
+    @media only screen and (min-width: 1440px) {
+      font-size: 32px;
+    }
+  }
 `;
