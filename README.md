@@ -2,8 +2,12 @@
 
 ![image](https://github.com/DianaKryzhanivska/test-task-contacts/blob/main/contacts-image.png)
 
-Website to add, edit, delete and search contacts by name and email. It has 2
-pages:
+Website to add, edit, delete and search contacts by name and email. The website
+is designed with a mobile-first approach. Adaptive design with breakpoints
+375px, 768px, 1440px. Modal windows for adding a new contact, editing and
+deleting a contact.
+
+It has 2 pages:
 
 - Home page - / | Page designed to show what this application offers
 - Contacts page - /contacts | Page displaying all contacts in data base. Page
